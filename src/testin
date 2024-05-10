@@ -1,0 +1,350 @@
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Uiux from "./pages/Uiux";
+import Header from "./pages/Header";
+import Herosection from "./pages/Herosection";
+import Frontend from "./pages/Frontend";
+import Mobile from "./pages/Mobile";
+import Dataschool from "./pages/Dataschool";
+import Fullstack from "./pages/Fullstack";
+import Backend from "./pages/Backend";
+import Datatesting from "./pages/Datatesting";
+import Contact from "./pages/Contact";
+
+
+
+export default function App() {
+  return (
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Header />}>
+            <Route index element={<Herosection />} />
+            <Route path="Uiux" element={<Uiux />} />
+            <Route path="frontend" element={<Frontend />} />
+            <Route path="mobile" element={<Mobile />} />
+            <Route path="dataschool" element={<Dataschool />} />
+            <Route path="fullstack" element={<Fullstack />} />
+            <Route path="Backend" element={<Backend />} />
+            <Route path="Datatesting" element={<Datatesting />} />
+            <Route path="contact" element={<Contact />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+
+
+
+
+
+import React, { useState } from "react";
+import { Outlet, Link } from "react-router-dom";
+// import Header from "./header";
+
+const Layout = ({ props }) => {
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  const handleSetActive = (index) => {
+    setActiveIndex(index === activeIndex ? -1 : index);
+  };
+
+  return (
+    <>
+      {/* <Header/> */}
+      <div className="container components">
+        <div className="software">
+          <Link to="/" onClick={() => handleSetActive(0)}>
+            Software Development School
+            <div
+              className={
+                activeIndex === 0 ? "rectangle-active" : "rectangle-grey"
+              }
+            ></div>
+          </Link>
+        </div>
+        <div className="software">
+          <Link
+            className="product"
+            to="/product"
+            onClick={() => handleSetActive(1)}
+          >
+            Product School
+            <div className={activeIndex === 1 ? "rectangle-active" : ""}></div>
+          </Link>
+        </div>
+        <div className="software">
+          <Link to="SoftwareTesting" onClick={() => handleSetActive(2)}>
+            Software Testing School
+            <div
+              id="datarectangle"
+              className={
+                activeIndex === 2 ? "rectangle-active" : "rectangle-grey "
+              }
+            ></div>
+          </Link>
+        </div>
+        <div className="DataSchool">
+          <Link
+            className="data-school"
+            to="DataScience"
+            onClick={() => handleSetActive(3)}
+          >
+            Data School
+            <div
+              className={
+                activeIndex === 3 ? "rectangle-active" : "rectangle-grey"
+              }
+            ></div>
+          </Link>
+        </div>
+      </div>
+      <Outlet />
+    </>
+  );
+};
+
+export default Layout;
+
+
+
+Header
+
+
+
+import React, { useState, useEffect } from "react";
+
+const MobileMenu = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [schoolsOpen, setSchoolsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const toggleSchools = () => {
+    setSchoolsOpen(!schoolsOpen);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
+  // Add event listener to close dropdown when clicking outside of it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const target = event.target;
+      const dropdownButton = document.querySelector(".dropdown-button");
+
+      if (!dropdownButton.contains(target) && schoolsOpen) {
+        setSchoolsOpen(false);
+      }
+    };
+
+    if (schoolsOpen) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [schoolsOpen]);
+
+  return (
+    <nav className="bg-white shadow-lg fixed w-[100%]">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between">
+          <div className="flex space-x-7">
+            <div>
+              <a href="#" className="flex items-center py-4 px-2">
+                <img src="../../Assets/logo.png" alt="Logo" className="" />
+              </a>
+            </div>
+            <div className="hidden md:flex items-center space-x-1">
+              <div className="relative">
+                <a
+                  href="#"
+                  className="flex items-center py-4 px-2 text-gray-500 border-green-500 font-semibold dropdown-button"
+                  onClick={toggleSchools}
+                >
+                  Schools
+                  <span className="ml-1">
+                    <img src="../../Assets/Arrow.jpg" alt="" />
+                  </span>
+                  {schoolsOpen && (
+                    <div className="absolute bg-white shadow-md rounded mt-[200px] ml-[-230px] py-2 w-[1280px]">
+                      {/* Dropdown content */}
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                        onClick={closeMenu}
+                      >
+                        School 1
+                      </a>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                        onClick={closeMenu}
+                      >
+                        School 2
+                      </a>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                        onClick={closeMenu}
+                      >
+                        School 3
+                      </a>
+                    </div>
+                  )}
+                </a>
+              </div>
+              <a
+                href=""
+                className="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              >
+                Services
+              </a>
+
+              <a
+                href=""
+                className="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              >
+                About
+              </a>
+              <a
+                href=""
+                className="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              >
+                Contact Us
+              </a>
+            </div>
+          </div>
+          <div className="hidden md:flex items-center space-x-3">
+            <a
+              href=""
+              className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300"
+            >
+              Log In
+            </a>
+            <a
+              href=""
+              className="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300"
+            >
+              Sign Up
+            </a>
+          </div>
+          <div className="md:hidden flex items-center">
+            <button
+              className="outline-none mobile-menu-button"
+              onClick={toggleMenu}
+            >
+              {menuOpen ? (
+                <svg
+                  className="w-6 h-6 text-gray-500 hover:text-green-500"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              ) : (
+                <svg
+                  className="w-6 h-6 text-gray-500 hover:text-green-500"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className={`md:hidden ${menuOpen ? "block" : "hidden"}`}>
+        <ul>
+          <li className="active">
+            <a
+              href="index.html"
+              className="block text-sm px-2 py-4 text-white bg-green-500 font-semibold"
+            >
+              Home
+            </a>
+          </li>
+          {/* Dropdown content */}
+          <li>
+            <a
+              className="flex items-center py-4 px-2 text-gray-500 border-green-500 font-semibold dropdown-button"
+              onClick={toggleSchools}
+            >
+              Schools
+              <span className="ml-1">
+                <img src="../../Assets/Arrow.jpg" alt="" />
+              </span>
+              {schoolsOpen && (
+                <div className="absolute bg-white shadow-md rounded mt-[-20px] py-2 w-32">
+                  <a
+                    href="/"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                    
+                  >
+                    School 1
+                  </a>
+                  <a
+                    href="/" 
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                    
+                  >
+                    School 2
+                  </a>
+                  <a
+                    href="/"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                    
+                  >
+                    School 3
+                  </a>
+                </div>
+              )}
+            </a>
+          </li>
+          <li>
+            <a
+              href="/services"
+              className="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300"
+            >
+              Services
+            </a>
+          </li>
+          <li>
+            <a
+              href="/about"
+              className="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300"
+            >
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="/contact"
+              className="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300"
+            >
+              Contact Us
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
+};
+
+export default MobileMenu;
